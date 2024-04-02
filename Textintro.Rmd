@@ -1,0 +1,21 @@
+---
+title: "Final Portfolio"
+author: "*Liv Künne*"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: rows
+---
+
+### **Analysis**
+The keys most commonly used by Grimes vs GrimesAI evidently differ. While Grimes most commonly uses A major, Grimes most commonly uses C minor. Additionally, GrimesAI uses C# for almost twice as many songs of the palylist as the other commonly usedkeys. The distribution of number of songs among the keys is more equal in the case of Grimes. This shows that Grimes' songs differ more, while GrimesAI songs primarily use the same keys. This could be interpreted as AI generated songs being more repetitive in this case. 
+
+Introduction
+=====================================
+    
+Introduction
+-----------------------------------------------------------------------
+### **Introduction**
+
+My corpus consists of two playlists, of which one features 95 Grimes songs and the other one 100 GrimesAI songs. Grimes is a Canadian musician known for her futuristic sounds and approaches to music production. GrimesAI is a project under which AI generated songs using Grime’s voice are being released on Spotify. Anyone can generate songs featuring Grime’s voice with the help of ElfTech, a generative AI system trained on the artist’s voice.
+By comparing the two playlists, I will be able to directly compare songs by the “real” Grimes and songs imitating her. I am intrigued to see if the use of her voice will automatically make other aspects of the songs, like the energy or valence level. similar. I want to explore if music generative AI systems stick to the base points of the songs they were trained on or if they really create something entirely new.
+  
