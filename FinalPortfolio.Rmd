@@ -1,5 +1,5 @@
 ---
-title: "Final Portfolio"
+title: "*Final Portfolio*"
 author: "*Liv Künne*"
 output:
   flexdashboard::flex_dashboard:
