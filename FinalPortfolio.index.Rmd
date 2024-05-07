@@ -1,0 +1,342 @@
+---
+title: "Final Portfolio"
+author: "*Liv Künne*"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+---
+
+```{r setup, include=FALSE}
+library(spotifyr)
+library(tidyverse)
+library(flexdashboard)
+library(compmus)
+knitr::opts_chunk$set(echo = TRUE)
+circshift <- function(v, n) {
+  if (n == 0) v else c(tail(v, n), head(v, -n))
+}
+```
+
+
+Introduction
+=====================================
+    
+Introduction
+-----------------------------------------------------------------------
+### **Introduction**
+
+With the rise of contemporary mainstream AI technologies, such as ChatGPT, artificial intelligence has started to influence many aspects of our lifes. Next to text generation, AI can also be used in cultural production, such as the creation of images or music. In this portfolio I want to analyse the latter from a musicological perspective.
+Generative AI is often expected to allow for new forms of creativity (Bueno et al., 2024). But does this assumption hold up in reality?
+
+The case study I chose to analyse this, are the two Spotify artist accountsb *Grimes* and *GrimesAI*. Grimes is a Canadian musician known for her futuristic sounds and approaches to music production. GrimesAI is a project under which AI generated songs using Grime’s voice are being released on Spotify. Anyone can generate songs featuring Grime’s voice with the help of *Elf Tech*, a generative AI system trained on the artist’s voice. In the "ChaosManual" on the *Elf Tech* website it states that "The notion that technology is separated from creativity [..] is based on [an] incorrect assumption". As this implies that technology is tied to creativity, I think that songs generated with *Elf Tech* are a good source to test how creative AI generated songs are.
+
+The corpus that I want to analyse to explore this, consists of two playlists, of which one features 95 Grimes songs and the other one 100 GrimesAI songs. By comparing the two playlists, I will be able to directly compare songs by the “real” Grimes and the songs featuring an AI generated version of her voice. I am intrigued to see if the use of her voice will automatically make other musical features similar too. I want to explore how similar AI generated music is to the songs it was trained and if such AI systems can really create something entirely new. I also want to see how similar the AI generated songs are to each other. 
+  
+The "vibe" of the songs
+=====================================
+
+Analysis
+----------------------------
+### **Analysis**
+
+TThe first feature that I used to compare the two sets of songs present in the playlists is energy. I expected both categories of songs to have high energy level, as they both tend to be rather loud and fast, exhibiting characteristics of electronic. This is mostly true, as can be seen on the right. One thing that can be observed is that there is more diversity in the energy levels of Grimes songs compared to GrimesAI. Additionally, there are less extremes in the energy levels of Grimes songs, as there is no Grimes song with an energy level of 1 or below 0.1. There is one very low energy song and 5 high energy songs. The most common energy levels are 0.9 and 0.62. With the GrimesAI songs there is a large spike in count for songs with an energy level of about 0.8. This shows that GrimesAI songs are more likely to have the same energy level but also exhibit more variety overall. 
+
+The second feature is valence. Here, there is a spike in the count of Grimes songs at a valence level of around 0.47, but overall they are evenly distributed, covering happy and sad music. There are still more songs with a valence level below 0.5 then above 0.5, but overall it seems as if the Grimes songs do not generally sound particularly happy or sad. GrimesAI songs on the other hand, have much lower valence on average, representing more sad songs compared to Grimes. There are much more songs with a valence level below 0.5 compared to those above 0.5. This could be an indicator that (amateur) musicians are using GrimesAI as an outlet to create music to process (negative) emotions. As the training data (Grimes songs), does not seem to have as low of valence, I think that the software itself is not causing this lack of variety.
+
+The third feature is danceability. I expected both categories to have high danceability, as they’re both mainly consisting of electronic music songs, which are generally considered to be danceable. This is true, as a majority of the songs have a danceability score of above 0.5. One things that I find really interesting about this, is that GrimesAI songs also tend to have lower valence, indicating that they’re danceable while also being more “sad”. Moreover, GrimesAI songs still have a higher danceability than Grimes songs. 
+
+
+Graphs {.tabset .tabset-fade}
+-------------------------------------
+    
+### **Energy**
+    
+```{r, echo=FALSE}
+GrimesAI <- get_playlist_audio_features("", "1eQ7enBTU7nWANZGnqBULx")
+Grimes <- get_playlist_audio_features("", "6tCReGrpW7rMf4B0vpzA73")
+Compare <-bind_rows(GrimesAI |> mutate(category = "GrimesAI"), Grimes |> mutate(category = "Grimes"))
+ 
+ggplot(Compare, aes(x = energy)) +
+    geom_histogram(binwidth = 0.05, fill = "blue", color = "black", width = 0.5) +
+    facet_wrap(~category)
+```
+
+### **Valence**
+    
+```{r, echo=FALSE}
+GrimesAI <- get_playlist_audio_features("", "1eQ7enBTU7nWANZGnqBULx")
+Grimes <- get_playlist_audio_features("", "6tCReGrpW7rMf4B0vpzA73")
+Compare <-bind_rows(GrimesAI |> mutate(category = "GrimesAI"), Grimes |> mutate(category = "Grimes"))
+ 
+ggplot(Compare, aes(x = valence)) +
+    geom_histogram(binwidth = 0.05, fill = "blue", color = "black", width = 0.5) +
+    facet_wrap(~category)
+```
+
+
+### **Danceability**
+    
+```{r, echo=FALSE}
+GrimesAI <- get_playlist_audio_features("", "1eQ7enBTU7nWANZGnqBULx")
+Grimes <- get_playlist_audio_features("", "6tCReGrpW7rMf4B0vpzA73")
+Compare <-bind_rows(GrimesAI |> mutate(category = "GrimesAI"), Grimes |> mutate(category = "Grimes"))
+ 
+ggplot(Compare, aes(x = danceability)) +
+    geom_histogram(binwidth = 0.05, fill = "blue", color = "black", width = 0.5) +
+    facet_wrap(~category)
+```
+
+
+Key Histogram
+=====================================
+    
+Analysis
+----------------------------
+### **Analysis**
+
+The keys most commonly used by Grimes vs GrimesAI evidently differ. While Grimes most commonly uses A minor, Grimes most commonly uses C major. Additionally, GrimesAI uses C major for almost twice as many songs of the playlist as the second most commonly used keys. This is not too surprising as A minor and C major are the most commonly used keys, but it is interesting to note that Grimes uses a minor key most frequently, while the GrimesAI songs feature a major key most frequently. 
+Furthermore, the distribution of the number of songs among the keys is more equally spread out in the case of GrimesAI (except for C#), while Grimes songs show more fluctuation in the number of songs in each key. Additionally, no GrimesAI song is in D#, but two of the Grimes songs are. This could mean that Grimes tends to include more variety in which keys she uses and how much she uses them, while GrimesAI songs primarily use the same keys equally often. This could be interpreted as AI generated songs being more standardised and less “random”.
+
+
+Graph
+----------------------------------------
+```{r key_histogram plot, echo=FALSE}
+GrimesAI <- get_playlist_audio_features("", "1eQ7enBTU7nWANZGnqBULx")
+Grimes <- get_playlist_audio_features("", "6tCReGrpW7rMf4B0vpzA73")
+Compare <-bind_rows(GrimesAI |> mutate(category = "GrimesAI"), Grimes |> mutate(category = "Grimes"))
+ 
+ggplot(Compare, aes(x = key_name)) +
+    geom_bar(binwidth = 0.05, fill = "blue", color = "black", width = 0.5) +
+    facet_wrap(~category)
+```
+
+
+Tempo Histogram
+=====================================
+
+Analysis
+----------------------------
+### **Analysis**
+
+The Tempo Histogram shows the tempi of the different songs in the two playlists. I did not notice distinct tempo differences when listening to the two playlists, so I did not have particular expectations regarding how fast the tempi of the songs would be. As we can see on the right, the majority of Grimes songs have a tempo of about 105 to 150. The majority of the GrimesAI songs have a tempo of about 110 to 140. At these tempi ranges, we can observe a “clumping” of different tempi attributed to the individual songs. This “clumping” phenomenon is more distinctly visible for the GrimesAI songs, which in combination with the smaller range of majority tempo, indicates that the tempi of the different GrimesAI songs are more similar than those of the Grimes songs. Additionally, both groups have one occurrence of two songs having the same tempo. For Grimes this is the case for a tempo of around 120 BPM and for GrimesaAI this is the case for a tempo of around 130 BPM. 
+Overall, the tempo of the Grimes songs is more evenly distributed, showing a variety of tempi used for the different songs and also featuring songs that have a very high tempo. The GrimesAI playlist on the other hand, features particularly slow songs compares to Grimes. 
+
+
+Tempo Histogram
+-------------------------------------
+### **Tempo Histogram**
+  
+```{r tempo_histogram plot, echo=FALSE}
+GrimesAI <- get_playlist_audio_features("", "1eQ7enBTU7nWANZGnqBULx")
+Grimes <- get_playlist_audio_features("", "6tCReGrpW7rMf4B0vpzA73")
+Compare <-bind_rows(GrimesAI |> mutate(category = "GrimesAI"), Grimes |> mutate(category = "Grimes"))
+ 
+ggplot(Compare, aes(x = tempo)) +
+    geom_bar(binwidth = 0.5, fill = "black", width = 0.5) +
+    facet_wrap(~category)
+```
+
+
+
+Timbre comparison of two songs
+=====================================
+
+Analysis
+----------------------------
+### **Analysis**
+
+The two songs I chose for the Timbre analysis are GrimesAI’s most popular song “Cold Touch” and Grime’s song “Shinigami Eyes”. I choose this Grimes song, as it is a newer song of hers that features similar “futuristic” and electronic sounds as “Cold Touch” and is also popular. I expected “Cold Touch” to have a bit more variety in timbre, as it sounds like different instruments were being used in different parts of the song. We can see that this is true, as the Timbre is much more diverse for the GrimesAI song, indicating a broader variety of sounds and more musical elements that were used. However, I did not expect “Cold Touch” to show that much more variety in timbre compared to “Shirigami Eyes”, as “Shirigami Eyes” shows mainly the same timbre group for the entire track. If we assume that variety and innovation is one aspect of creativity, it could be argued that the GrimesAI track is more creative in this case. However, this is only the case for this specific example. 
+
+Row {.tabset .tabset-fade}
+------------------------------------
+### **Shinigami Eyes - Grimes (Timbre)**
+
+```{r, echo=FALSE}
+shinigami <-
+  get_tidy_audio_analysis("0YQEWdfq3ajtNtK106Dr0k") |> 
+  compmus_align(bars, segments) |>                     
+  select(bars) |>                                      
+  unnest(bars) |>                                      
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "rms", norm = "euclidean"              
+      )
+  ) |>
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "rms", norm = "euclidean"
+      )
+  )
+shinigami |>
+  compmus_gather_timbre() |>
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = basis,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  scale_fill_viridis_c() +                              
+  theme_classic()
+```
+
+### **Cold Touch - GrimesAI (Timbre)**
+
+```{r, echo=FALSE}
+coldtouch <-
+  get_tidy_audio_analysis("7mGSXZwI5LlTqGARZH7JiM") |> 
+  compmus_align(bars, segments) |>                     
+  select(bars) |>                                      
+  unnest(bars) |>                                      
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "rms", norm = "euclidean"              
+      )
+  ) |>
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  )
+coldtouch |>
+  compmus_gather_timbre() |>
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = basis,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  scale_fill_viridis_c() +                              
+  theme_classic()
+
+```
+
+
+Chroma Comparison
+=====================================
+
+Analysis
+----------------------------
+### **Analysis**
+
+When looking at the chroma features of “Shirigami Eyes” (GrimesAI) and “Cold Touch”(Grimes), I expected more variety in Chroma for the GrimesAI song compared to the Grimes song, similar to the timbre. As the GrimesAI track features more distinctly different instruments, I assumed that this would also mean that the track features more tones at the same time, which can also be observed when listening to the song. As we can see on the right, this is the case. The Grimes song does not only feature less notes at the same time but also less variety in the chroma features attributed to the different parts of the song. The GrimesAI song shows much more variety in the notes that occur over the course of the song and also features more different chromas simultaneously. This can be interpreted as the GrimesAI song being more harmonically interesting and less monotone. 
+
+Graphs {.tabset .tabset-fade}
+-----------------------------------
+### **Shinigami Eyes - Grimes (Chroma)**
+
+```{r, echo=FALSE}
+shinigamichrom <-
+  get_tidy_audio_analysis("0YQEWdfq3ajtNtK106Dr0k") |>
+  select(segments) |>
+  unnest(segments) |>
+  select(start, duration, pitches)
+
+shinigamichrom |>
+  mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+  compmus_gather_chroma() |> 
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = pitch_class,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  theme_minimal() +
+  scale_fill_viridis_c()
+```
+
+### **Cold Touch - GrimesAI (Chroma)**
+
+```{r, echo=FALSE}
+coldtouchchrom <-
+  get_tidy_audio_analysis("7mGSXZwI5LlTqGARZH7JiM") |>
+  select(segments) |>
+  unnest(segments) |>
+  select(start, duration, pitches)
+
+coldtouchchrom |>
+  mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+  compmus_gather_chroma() |> 
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = pitch_class,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  theme_minimal() +
+  scale_fill_viridis_c()
+```
+
+
+Tempogram
+=====================================
+
+Analysis
+----------------------------
+### **Analysis**
+
+When comparing the tempo of “Shirigami Eyes” (GrimesAI) and “Cold Touch”(Grimes), I expected the GrimesAI song to have more BPM than the Grimes song, as it sounds objectively faster. However, the tempograms show that the Grimes song predominantly features a tempo of 450 BPM in combination with a tempo of about 230 BPM. I feel like this tempo is very fast and am unsure if this aligns with the tempo of the actual song and am also unsure about how two tempi can be detected simultaneously. Especially, as the Grimes song features less variety of chroma at the same time, I find it interesting that there are multiple tempi. The GrimesAI song shows a rather steady tempo of about 350 BPM. Overall, the GrimesAI song has a more distinct and dominant tempo, which becomes obvious when listening to the song, and possibly leads to a more accurate tempo measurement. 
+
+Graphs {.tabset .tabset-fade}
+-----------------------------------
+### Shinigami Eyes - Grimes
+
+```{r, echo=FALSE}
+shinigamitemp <-
+  get_tidy_audio_analysis("0YQEWdfq3ajtNtK106Dr0k") 
+
+shinigamitemp |>
+  tempogram(window_size = 8, hop_size = 1, cyclic = FALSE) |>
+  ggplot(aes(x = time, y = bpm, fill = power)) +
+  geom_raster() +
+  scale_fill_viridis_c(guide = "none") +
+  labs(x = "Time (s)", y = "Tempo (BPM)") +
+  theme_classic()
+```
+
+### **Cold Touch - GrimesAI **
+
+```{r, echo=FALSE}
+coldtouchtemp <-
+  get_tidy_audio_analysis("7mGSXZwI5LlTqGARZH7JiM") 
+
+coldtouchtemp |>
+  tempogram(window_size = 8, hop_size = 1, cyclic = FALSE) |>
+  ggplot(aes(x = time, y = bpm, fill = power)) +
+  geom_raster() +
+  scale_fill_viridis_c(guide = "none") +
+  labs(x = "Time (s)", y = "Tempo (BPM)") +
+  theme_classic()
+```
+
+
+Discussion
+=====================================
+    
+### **Discussion**
+
+My analysis of the musical features attributed to the songs of the two groups, showed that there tends to be less musical variety for the different GrimesAI songs. They seem to be more similar to each other than the songs in the Grimes playlist, while still showing some variety. Another observation that can be made in this context is that the average musical features and number of occurrences of musical features is different for the two groups. Thus, the music created using the software Elf Tech (GrimesAI songs), is not particularly similar to the data the software was being trained on (Grimes songs). Additionally, it seems as if the songs being generated with the help of the software tend to be similar, with more similar musical features. This could be interpreted as less innovative music being generated. 
+Furthermore, based on the cases of “Cold Touch” by GrimesAiI and “Shinigami Eyes” by Grimes, GrimesAI songs tend to have more musical variety within themselves, showcasing more musical variety. Although this is not representative, it does show that the functionality of the software enables the generation of complex tracks that can be considered creative. Thus, using AI to create music can be a creative and emotional outlet, and lead to the creation of interesting and complex pieces. However, the features of the generated songs often go into the same direction, possibly hinting at the amateur nature of the skill level of its (co-) producers. 
