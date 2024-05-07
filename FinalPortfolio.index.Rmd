@@ -26,7 +26,7 @@ Introduction
 ### **Introduction**
 
 With the rise of contemporary mainstream AI technologies, such as ChatGPT, artificial intelligence has started to influence many aspects of our lifes. Next to text generation, AI can also be used in cultural production, such as the creation of images or music. In this portfolio I want to analyse the latter from a musicological perspective.
-Generative AI is often expected to allow for new forms of creativity (Bueno et al., 2024). But does this assumption hold up in reality?
+Generative AI is often expected to allow for new forms of creativity. But does this assumption hold up in reality?
 
 The case study I chose to analyse this, are the two Spotify artist accountsb *Grimes* and *GrimesAI*. Grimes is a Canadian musician known for her futuristic sounds and approaches to music production. GrimesAI is a project under which AI generated songs using Grime’s voice are being released on Spotify. Anyone can generate songs featuring Grime’s voice with the help of *Elf Tech*, a generative AI system trained on the artist’s voice. In the "ChaosManual" on the *Elf Tech* website it states that "The notion that technology is separated from creativity [..] is based on [an] incorrect assumption". As this implies that technology is tied to creativity, I think that songs generated with *Elf Tech* are a good source to test how creative AI generated songs are.
 
